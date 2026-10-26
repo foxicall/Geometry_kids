@@ -15,7 +15,8 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "questions:generate": "node --use-env-proxy --import tsx scripts/generateQuestions.ts",
-    "questions:validate": "tsx scripts/validateQuestions.ts"
+    "questions:validate": "tsx scripts/validateQuestions.ts",
+    "build:offline": "npm run build && node scripts/buildOffline.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.31.0",
