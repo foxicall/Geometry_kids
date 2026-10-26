@@ -6,7 +6,7 @@ import { HomePage } from './components/HomePage';
 import { ResultsPage } from './components/ResultsPage';
 import { HistoryPage } from './components/HistoryPage';
 import { attributeLabels } from './lib/matrix';
-import { createQuestion } from './lib/questions';
+import { generatedQuestions, sessionQuestion } from './lib/questionBank';
 import { elapsedTime, formatTime, gameReducer, initialGame, nextDifficulty, readHistory, ROUND_LENGTH, saveSession } from './lib/game';
 import { routes } from './lib/routes';
 import type { Difficulty } from './types/matrix';
@@ -40,13 +40,13 @@ export function App() {
   function start() {
     const sessionId = crypto.randomUUID();
     const timestamp = Date.now();
-    dispatch({ type: 'start', question: createQuestion(difficulty, `${sessionId}-1`), adaptive, now: timestamp, sessionId });
+    dispatch({ type: 'start', question: sessionQuestion(difficulty, `${sessionId}-1`), adaptive, now: timestamp, sessionId });
     setNow(timestamp); setHint(false); setView('game');
   }
   function home(nextView: View = 'home') { dispatch({ type: 'reset' }); setView(nextView); setHint(false); }
   function next() {
     const timestamp = Date.now();
-    dispatch({ type: 'next', question: state.answers.length >= ROUND_LENGTH ? null : createQuestion(nextDifficulty(state), `${state.sessionId}-${state.answers.length + 1}`), now: timestamp });
+    dispatch({ type: 'next', question: state.answers.length >= ROUND_LENGTH ? null : sessionQuestion(nextDifficulty(state), `${state.sessionId}-${state.answers.length + 1}`, state.answers.map((answer) => answer.question)), now: timestamp });
     setNow(timestamp); setHint(false);
   }
   const currentNumber = Math.min(ROUND_LENGTH, state.answers.length + (state.phase === 'playing' ? 1 : 0));
@@ -67,7 +67,7 @@ export function App() {
       <div className="sidebar-footer"><Leaf size={15} />為好奇心，留一點空間</div>
     </aside>
     <div className="main-shell">
-      <header className="topbar"><div className="breadcrumb"><Map size={17} /><span>探索</span><ChevronRight size={13} /><strong>{view === 'home' ? '探險基地' : view === 'history' ? '我的發現' : '練習挑戰'}</strong></div><span className="local-status"><i />本地規則題庫</span><div className="avatar" aria-label="小小探險家"><span>✦</span></div></header>
+      <header className="topbar"><div className="breadcrumb"><Map size={17} /><span>探索</span><ChevronRight size={13} /><strong>{view === 'home' ? '探險基地' : view === 'history' ? '我的發現' : '練習挑戰'}</strong></div><span className="local-status"><i />{generatedQuestions.some((question) => question.source === 'gemini') ? '圖形題庫已就緒' : '本地規則題庫'}</span><div className="avatar" aria-label="小小探險家"><span>✦</span></div></header>
       <main ref={main} className={`main-content ${view === 'game' ? 'game-content' : ''}`}>
         {view === 'home' && <HomePage difficulty={difficulty} setDifficulty={setDifficulty} adaptive={adaptive} setAdaptive={setAdaptive} onStart={start} />}
         {view === 'game' && question && state.phase !== 'complete' && <>

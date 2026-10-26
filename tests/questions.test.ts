@@ -47,4 +47,16 @@ describe('原創規則題庫', () => {
     cell.count = cell.count === 1 ? 2 : 1;
     expect(() => validateQuestion(invalid)).toThrow('規則');
   });
+  it('旋轉題含外觀僅方向不同的干擾項，不能繞過旋轉推理', () => {
+    const random = seeded(42);
+    let rotationQuestions = 0;
+    for (let index = 0; index < 150; index++) {
+      const question = createQuestion('hard', String(index), random);
+      if (!question.rules.some((rule) => rule.attribute === 'rotation')) continue;
+      rotationQuestions++;
+      const answer = question.options.find((option) => option.id === question.correctOptionId)!.cell;
+      expect(question.options.some(({ cell }) => cell.shape === answer.shape && cell.fill === answer.fill && cell.count === answer.count && cell.rotation !== answer.rotation)).toBe(true);
+    }
+    expect(rotationQuestions).toBeGreaterThan(0);
+  });
 });

@@ -1,4 +1,4 @@
-import { COUNTS, FILLS, SHAPES } from '../types/matrix';
+import { COUNTS, FILLS, ROTATIONS, SHAPES } from '../types/matrix';
 import type { Difficulty, GeometryUnit, MatrixQuestion, MatrixRule } from '../types/matrix';
 import { describeRules, expectedCell, validateQuestion, visualKey } from './matrix';
 
@@ -27,8 +27,7 @@ export function createQuestion(difficulty: Difficulty, id: string, random: Rando
   }
   if (difficulty === 'hard') {
     const third = rules.some((rule) => rule.attribute === 'fill') ? 'shape' : 'fill';
-    // 旋轉題固定使用有方向的圖形，避免圓形與正方形的旋轉歧義。
-    rules.push({ attribute: third === 'shape' && attribute === 'rotation' ? 'rotation' : third, direction, step: 1 });
+    rules.push({ attribute: third, direction, step: 1 });
   }
   const anchor: GeometryUnit = {
     shape: attribute === 'rotation' ? choose(['triangle', 'star'] as const, random) : choose(SHAPES, random),
@@ -42,11 +41,24 @@ export function createQuestion(difficulty: Difficulty, id: string, random: Rando
   );
   const answer = expectedCell(anchor, size - 1, size - 1, rules);
   // 從有限集合抽取，沒有隨機重試迴圈，並以實際視覺內容去重。
-  const candidates: GeometryUnit[] = [];
-  for (const shape of SHAPES) for (const fill of FILLS) for (const count of COUNTS) {
-    candidates.push({ shape, fill, count, rotation: answer.rotation });
+  const candidates = new Map<string, GeometryUnit>();
+  for (const shape of SHAPES) for (const fill of FILLS) for (const count of COUNTS) for (const rotation of ROTATIONS) {
+    const cell = { shape, fill, count, rotation };
+    if (visualKey(cell) !== visualKey(answer) && !candidates.has(visualKey(cell))) candidates.set(visualKey(cell), cell);
   }
-  const wrong = shuffle(candidates.filter((cell) => visualKey(cell) !== visualKey(answer)), random).slice(0, difficulty === 'hard' ? 5 : 4);
+  const attributes = ['shape', 'fill', 'count', 'rotation'] as const;
+  const close = shuffle([...candidates.values()].filter((cell) => attributes.filter((key) => cell[key] !== answer[key]).length === 1), random);
+  // 每種受測屬性至少有一個近似干擾項，旋轉題不能僅靠數量或填色排除。
+  const wrong: GeometryUnit[] = [];
+  for (const rule of rules) {
+    const candidate = close.find((cell) => cell[rule.attribute] !== answer[rule.attribute]);
+    if (candidate && !wrong.some((cell) => visualKey(cell) === visualKey(candidate))) wrong.push(candidate);
+  }
+  const distractorCount = difficulty === 'hard' ? 5 : 4;
+  for (const candidate of [...close, ...shuffle([...candidates.values()], random)]) {
+    if (wrong.length === distractorCount) break;
+    if (!wrong.some((cell) => visualKey(cell) === visualKey(candidate))) wrong.push(candidate);
+  }
   const options = shuffle([answer, ...wrong], random).map((cell, index) => ({ id: `option-${index + 1}`, cell }));
   return validateQuestion({
     id, size, difficulty, grid, options, rules,

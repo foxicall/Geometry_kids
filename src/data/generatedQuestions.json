@@ -1,0 +1,266 @@
+{
+  "version": 1,
+  "questions": [
+    {
+      "id": "elem_geom_01",
+      "size": 2,
+      "difficulty": "easy",
+      "grid": [
+        [
+          {
+            "shape": "circle",
+            "rotation": 0,
+            "fill": "solid",
+            "count": 1
+          },
+          {
+            "shape": "square",
+            "rotation": 0,
+            "fill": "solid",
+            "count": 1
+          }
+        ],
+        [
+          {
+            "shape": "circle",
+            "rotation": 0,
+            "fill": "solid",
+            "count": 1
+          },
+          null
+        ]
+      ],
+      "options": [
+        {
+          "id": "opt_1a",
+          "cell": {
+            "shape": "square",
+            "rotation": 0,
+            "fill": "solid",
+            "count": 1
+          }
+        },
+        {
+          "id": "opt_1b",
+          "cell": {
+            "shape": "triangle",
+            "rotation": 0,
+            "fill": "solid",
+            "count": 1
+          }
+        },
+        {
+          "id": "opt_1c",
+          "cell": {
+            "shape": "star",
+            "rotation": 0,
+            "fill": "solid",
+            "count": 1
+          }
+        },
+        {
+          "id": "opt_1d",
+          "cell": {
+            "shape": "circle",
+            "rotation": 0,
+            "fill": "solid",
+            "count": 1
+          }
+        },
+        {
+          "id": "opt_1e",
+          "cell": {
+            "shape": "square",
+            "rotation": 0,
+            "fill": "empty",
+            "count": 1
+          }
+        }
+      ],
+      "correctOptionId": "opt_1a",
+      "rules": [
+        {
+          "attribute": "shape",
+          "direction": "row",
+          "step": 1
+        }
+      ],
+      "explanation": "由左往右看，依「圓形 → 正方形 → 三角形 → 星形」每次往後 1 格，到最後就從頭開始。",
+      "source": "gemini"
+    },
+    {
+      "id": "elem_geom_02",
+      "size": 2,
+      "difficulty": "easy",
+      "grid": [
+        [
+          {
+            "shape": "star",
+            "rotation": 0,
+            "fill": "striped",
+            "count": 1
+          },
+          {
+            "shape": "star",
+            "rotation": 0,
+            "fill": "striped",
+            "count": 1
+          }
+        ],
+        [
+          {
+            "shape": "star",
+            "rotation": 0,
+            "fill": "striped",
+            "count": 2
+          },
+          null
+        ]
+      ],
+      "options": [
+        {
+          "id": "opt_2a",
+          "cell": {
+            "shape": "star",
+            "rotation": 0,
+            "fill": "striped",
+            "count": 1
+          }
+        },
+        {
+          "id": "opt_2b",
+          "cell": {
+            "shape": "star",
+            "rotation": 0,
+            "fill": "striped",
+            "count": 2
+          }
+        },
+        {
+          "id": "opt_2c",
+          "cell": {
+            "shape": "star",
+            "rotation": 0,
+            "fill": "striped",
+            "count": 3
+          }
+        },
+        {
+          "id": "opt_2d",
+          "cell": {
+            "shape": "triangle",
+            "rotation": 0,
+            "fill": "striped",
+            "count": 2
+          }
+        },
+        {
+          "id": "opt_2e",
+          "cell": {
+            "shape": "star",
+            "rotation": 0,
+            "fill": "solid",
+            "count": 2
+          }
+        }
+      ],
+      "correctOptionId": "opt_2b",
+      "rules": [
+        {
+          "attribute": "count",
+          "direction": "column",
+          "step": 1
+        }
+      ],
+      "explanation": "由上往下看，依「1 → 2 → 3」每次往後 1 格，到最後就從頭開始。",
+      "source": "gemini"
+    },
+    {
+      "id": "elem_geom_03",
+      "size": 2,
+      "difficulty": "easy",
+      "grid": [
+        [
+          {
+            "shape": "triangle",
+            "rotation": 0,
+            "fill": "empty",
+            "count": 1
+          },
+          {
+            "shape": "triangle",
+            "rotation": 90,
+            "fill": "empty",
+            "count": 1
+          }
+        ],
+        [
+          {
+            "shape": "triangle",
+            "rotation": 0,
+            "fill": "empty",
+            "count": 1
+          },
+          null
+        ]
+      ],
+      "options": [
+        {
+          "id": "opt_3a",
+          "cell": {
+            "shape": "triangle",
+            "rotation": 0,
+            "fill": "empty",
+            "count": 1
+          }
+        },
+        {
+          "id": "opt_3b",
+          "cell": {
+            "shape": "triangle",
+            "rotation": 180,
+            "fill": "empty",
+            "count": 1
+          }
+        },
+        {
+          "id": "opt_3c",
+          "cell": {
+            "shape": "triangle",
+            "rotation": 270,
+            "fill": "empty",
+            "count": 1
+          }
+        },
+        {
+          "id": "opt_3d",
+          "cell": {
+            "shape": "triangle",
+            "rotation": 90,
+            "fill": "empty",
+            "count": 1
+          }
+        },
+        {
+          "id": "opt_3e",
+          "cell": {
+            "shape": "triangle",
+            "rotation": 90,
+            "fill": "solid",
+            "count": 1
+          }
+        }
+      ],
+      "correctOptionId": "opt_3d",
+      "rules": [
+        {
+          "attribute": "rotation",
+          "direction": "row",
+          "step": 1
+        }
+      ],
+      "explanation": "由左往右看，每次順時針轉 90 度，到最後就從頭開始。",
+      "source": "gemini"
+    }
+  ]
+}
