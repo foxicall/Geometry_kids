@@ -7,7 +7,7 @@ import { ResultsPage } from './components/ResultsPage';
 import { HistoryPage } from './components/HistoryPage';
 import { attributeLabels } from './lib/matrix';
 import { generatedQuestions, sessionQuestion } from './lib/questionBank';
-import { elapsedTime, formatTime, gameReducer, initialGame, nextDifficulty, readHistory, ROUND_LENGTH, saveSession } from './lib/game';
+import { createSessionId, elapsedTime, formatTime, gameReducer, initialGame, nextDifficulty, readHistory, ROUND_LENGTH, saveSession } from './lib/game';
 import { routes } from './lib/routes';
 import type { Difficulty } from './types/matrix';
 
@@ -38,7 +38,7 @@ export function App() {
   }, [view, state.phase === 'complete']);
 
   function start() {
-    const sessionId = crypto.randomUUID();
+    const sessionId = createSessionId();
     const timestamp = Date.now();
     dispatch({ type: 'start', question: sessionQuestion(difficulty, `${sessionId}-1`), adaptive, now: timestamp, sessionId });
     setNow(timestamp); setHint(false); setView('game');

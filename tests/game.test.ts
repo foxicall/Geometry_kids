@@ -1,9 +1,20 @@
-import { describe, expect, it } from 'vitest';
-import { elapsedTime, gameReducer, initialGame, nextDifficulty, ROUND_LENGTH } from '../src/lib/game';
+import { describe, expect, it, vi } from 'vitest';
+import { createSessionId, elapsedTime, gameReducer, initialGame, nextDifficulty, ROUND_LENGTH } from '../src/lib/game';
 import { createQuestion } from '../src/lib/questions';
 
 const start = () => gameReducer(initialGame, { type: 'start', question: createQuestion('easy', 'q1'), adaptive: true, now: 1000, sessionId: 'session-1' });
 describe('作答狀態與計時', () => {
+  it('缺少 Crypto API 時仍產生不同練習編號，避免重啟覆寫紀錄', () => {
+    vi.stubGlobal('crypto', undefined);
+    vi.spyOn(Date, 'now').mockReturnValue(1000);
+    vi.spyOn(Math, 'random').mockReturnValue(0.5);
+    try {
+      const first = createSessionId();
+      const second = createSessionId();
+      expect(first).toMatch(/^session-/);
+      expect(second).not.toBe(first);
+    } finally { vi.restoreAllMocks(); vi.unstubAllGlobals(); }
+  });
   it('未選答案無法提交，重複提交與回饋期間選擇皆無效', () => {
     const state = start();
     expect(gameReducer(state, { type: 'confirm', now: 2000 })).toBe(state);

@@ -1,6 +1,15 @@
 import type { Difficulty, MatrixQuestion } from '../types/matrix';
 
 export const ROUND_LENGTH = 8;
+let sessionSequence = 0;
+
+/** 練習編號僅用於本機紀錄去重，不是認證憑證；受限預覽也能開始遊戲。 */
+export function createSessionId(): string {
+  if (typeof globalThis.crypto?.randomUUID === 'function') return globalThis.crypto.randomUUID();
+  // 非安全來源或舊版 WebView 可能沒有 randomUUID，以時間與序號保證同頁不重複。
+  return `session-${Date.now().toString(36)}-${(++sessionSequence).toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
 export interface Attempt { question: MatrixQuestion; selectedOptionId: string; correct: boolean; durationMs: number }
 export interface GameState {
   phase: 'idle' | 'playing' | 'feedback' | 'complete';
