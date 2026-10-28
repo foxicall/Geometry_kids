@@ -1,6 +1,6 @@
 # 幾何小建築師 · Geometry Kids
 
-給國小學生的原創幾何推理、立體觀察與圖形矩陣遊戲，加入用圖解銜接國中幾何的三級挑戰。使用 React、TypeScript、Vite 與 Tailwind CSS，圖形皆由 SVG 繪製，沒有外部圖片、字型或兒童帳號。這是邏輯練習，不是瑞文氏標準測驗、IQ 換算或資優鑑定。
+給國小學生的 IMO 概念互動、原創幾何推理、立體觀察與圖形矩陣遊戲，加入用圖解銜接國中幾何的三級挑戰。使用 React、TypeScript、Vite 與 Tailwind CSS，圖形皆由 SVG 繪製，沒有外部圖片、字型或兒童帳號。這是邏輯練習，不是瑞文氏標準測驗、IQ 換算或資優鑑定。
 
 ## 開始開發
 
@@ -15,7 +15,9 @@ npm run dev
 
 ## 遊戲內容
 
-預設主畫面是「幾何推理」，提供「圖解暖身／搭橋練習／國中挑戰」三階，6 類觀念各有 4 組數值，共 72 題原創參數變化題，每輪 6 題。涵蓋追角、同高面積、切補、相似圖形、勾股圖解及限定平面／兩個相鄰面的最短路線。每題有先備觀念、可操作 SVG、三層提示、分步解答與逐題回顧。提示不扣分、沒有倒數限制。新紀錄獨立儲存，不清除舊模式紀錄。
+預設主畫面是「IMO 數學思考研究所」，依 `docs/imo_concepts.md` 的 13 個概念提供 13 關互動遊戲。每關具備不限步數的探索模式、固定目標與步數的挑戰模式、Undo、重設、三階提示及本機完成紀錄。含位值、羅馬數字、估算、逆推、單位法、約分、通分比較、度量衡、周長、對稱、圖示統計、規律與羅盤。詳細對應、規格中數學矛盾的更正與操作規則見 [IMO 實作說明](docs/imo-implementation.md)。
+
+使用 `?mode=reasoning` 開啟「幾何推理」，提供「圖解暖身／搭橋練習／國中挑戰」三階，6 類觀念各有 4 組數值，共 72 題原創參數變化題，每輪 6 題。涵蓋追角、同高面積、切補、相似圖形、勾股圖解及限定平面／兩個相鄰面的最短路線。每題有先備觀念、可操作 SVG、三層提示、分步解答與逐題回顧。提示不扣分、沒有倒數限制。新紀錄獨立儲存，不清除舊模式紀錄。
 
 可用 `?mode=solid` 直接開啟「立體觀察室」，`?mode=matrix` 開啟矩陣練習。完整題型與限制見 [推理題設計說明](docs/reasoning-design.md)。YouTube 連線受到 403 限制，本版沒有宣稱核實任何特定影片；題目依通用數學觀念原創製作，影片參考仍待可讀的題目文字或內容。
 
@@ -43,7 +45,7 @@ npm run dev
 npm run build:offline
 ```
 
-產出 `dist/geometry-kids.html` 與 `dist/README-offline.txt`。單一 HTML 內嵌程式、樣式與題庫；以桌面瀏覽器開啟即可玩三種模式，不需要 API 金鑰或網路。手機檔案預覽器可能不執行網頁程式，請改用桌面瀏覽器或以自己的靜態伺服器提供 `dist/`。本機檔案的歷史儲存支援依瀏覽器而異。
+產出 `dist/geometry-kids.html` 與 `dist/README-offline.txt`。單一 HTML 內嵌程式、樣式與題庫；以桌面瀏覽器開啟即可玩四種模式，不需要 API 金鑰或網路。手機檔案預覽器可能不執行網頁程式，請改用桌面瀏覽器或以自己的靜態伺服器提供 `dist/`。本機檔案的歷史儲存支援依瀏覽器而異。
 
 **[直接下載離線遊戲 ZIP（不需登入）](https://github.com/foxicall/Geometry_kids/raw/refs/heads/main/downloads/geometry-kids-4ae4a49.zip)**
 
@@ -53,7 +55,7 @@ npm run build:offline
 
 ## Gemini 3.8 題庫維護
 
-Gemini 僅用於矩陣題庫維護；立體模型與答案完全在本機計算。
+Gemini 僅用於矩陣題庫維護；IMO 互動規則、幾何推理及立體模型的答案完全在本機計算。
 
 
 金鑰**只**由 Node 腳本中的 `process.env.GEMINI_API_KEY` 讀取。請在雲端環境設定安全提供金鑰；不要放進對話、原始碼、`VITE_` 變數或 Vite `define`。腳本使用官方 `@google/genai` SDK、`models.generateContent` 與 `responseJsonSchema`。
@@ -96,9 +98,13 @@ npm run test:e2e         # 桌面與手機完整互動
 PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e
 ```
 
-瀏覽器測試涵蓋三級幾何推理六題、立體十關與矩陣八題結算、重複點選、重啟、計時清理、旋轉操作、固定難度、提示、儲存不可用、320px 版面及離線單檔。執行前先建置離線包。截圖及失敗 trace 位於被忽略的 `test-results/`。GitHub Actions 會執行相同的單元、建置與瀏覽器檢查，不需要 API 金鑰。
+瀏覽器測試涵蓋 IMO 13 關探索／挑戰、Undo、提示、步數預算、模式重設與儲存隔離，以及三級幾何推理六題、立體十關與矩陣八題結算、重複點選、重啟、計時清理、旋轉操作、固定難度、提示、儲存不可用、320px 版面及離線單檔。執行前先建置離線包。截圖及失敗 trace 位於被忽略的 `test-results/`。GitHub Actions 會執行相同的單元、建置與瀏覽器檢查，不需要 API 金鑰。
 
 ## 模組
+
+- `src/types/game.ts`、`src/games/levels.ts`：13 關資料介面、目標、初始盤面、驗證器與提示。
+- `src/games/math.ts`、`engine.ts`：純數學、雙模式狀態機、步數、Undo 與獨立完成紀錄。
+- `src/games/*Game.tsx`、`imo.css`：選關與 13 個獨立 SVG／Tailwind 互動元件。
 
 - `src/types/reasoning.ts`、`src/lib/reasoningQuestions.ts`：三級六類原創題型、已知條件與分步解答。
 - `src/lib/reasoningGame.ts`：推理作答、提示、分步閱讀與獨立本機紀錄。

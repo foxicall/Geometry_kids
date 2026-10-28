@@ -30,7 +30,7 @@ async function round(page: Page, answers: number[]) {
 for (const example of examples) test(`推理 ${example.name}：六類完整作答、分步解答及紀錄`, async ({ page }, info) => {
   const errors: string[] = []; page.on('pageerror', (error) => errors.push(error.message));
   await page.addInitScript(() => { Math.random = () => 0; });
-  await page.goto('/');
+  await page.goto('/?mode=reasoning');
   await page.screenshot({ path: info.outputPath('reasoning-home.png'), fullPage: true });
   await page.getByRole('button', { name: new RegExp(example.name) }).click();
   await page.getByRole('button', { name: '開始 6 題推理' }).click();
@@ -48,7 +48,7 @@ for (const example of examples) test(`推理 ${example.name}：六類完整作�
 
 test('推理提示、錯答回饋、頂點操作、計時清除與手機窄版', async ({ page }, info) => {
   await page.clock.install(); await page.addInitScript(() => { Math.random = () => 0; });
-  await page.goto('/'); await page.setViewportSize({ width: 320, height: 740 });
+  await page.goto('/?mode=reasoning'); await page.setViewportSize({ width: 320, height: 740 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.getByRole('button', { name: '先看一題示範' }).click();
   await expect(page.locator('.reasoning-example .reasoning-steps li')).toHaveCount(3);
@@ -91,6 +91,7 @@ test('推理離線單檔、儲存讀寫失敗與三種模式入口', async ({ pa
   const html = await readFile('dist/geometry-kids.html', 'utf8');
   await page.route('**/*', (route) => route.request().url() === 'http://127.0.0.1:5173/reasoning-offline.html' ? route.fulfill({ contentType: 'text/html', body: html }) : route.abort());
   await page.goto('/reasoning-offline.html'); await context.setOffline(true);
+  await page.getByRole('button', { name: '幾何推理', exact: true }).click();
   await page.getByRole('button', { name: /國中挑戰/ }).click(); await page.getByRole('button', { name: '開始 6 題推理' }).click();
   await round(page, examples[2].answers);
   await expect(page.getByText('瀏覽器無法儲存紀錄，但這次的解答仍在下方。')).toBeVisible();

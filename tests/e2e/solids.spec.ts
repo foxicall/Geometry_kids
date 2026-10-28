@@ -134,7 +134,7 @@ test('離線單檔含新版十關與矩陣模式，沒有外部資源請求', as
   // 只供應這個單一 HTML；任何其他網址都不會被測試伺服器補齊。
   await page.route('**/*', (route) => route.request().url() === 'http://127.0.0.1:5173/offline-game.html' ? route.fulfill({ contentType: 'text/html', body: html }) : route.abort());
   await page.goto('/offline-game.html');
-  await page.getByRole('button', { name: '立體觀察室', exact: true }).click();
+  await page.getByRole('button', { name: '立體觀察', exact: true }).click();
   await context.setOffline(true);
   await page.getByRole('button', { name: '開始觀察挑戰' }).click();
   await completeRound(page);

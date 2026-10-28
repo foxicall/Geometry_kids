@@ -1,0 +1,59 @@
+/* 動畫只作提示；數學判定與動畫時間無關。 */
+.imo-app button[aria-pressed='true'] {
+  background: #d5f3ed;
+  border-color: #0f766e;
+  box-shadow: inset 0 0 0 1px #0f766e;
+}
+.imo-svg-button {
+  cursor: pointer;
+}
+.imo-svg-button[aria-disabled='true'] {
+  cursor: default;
+}
+.imo-svg-button:focus-visible {
+  outline: 3px solid #b57323;
+  outline-offset: 3px;
+}
+.imo-success {
+  animation: imo-celebrate 0.45s ease-out;
+}
+.imo-reflection {
+  animation: imo-reveal 0.45s ease-out;
+}
+@keyframes imo-celebrate {
+  0% {
+    transform: scale(0.96);
+  }
+  65% {
+    transform: scale(1.025);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes imo-reveal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .imo-app *,
+  .imo-app *::before,
+  .imo-app *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* 舊矩陣側欄為 fixed；讓出共用返回列，避免擋住模式切換按鈕。 */
+.legacy-game[data-mode='matrix'] .sidebar {
+  top: 61px;
+}
+@media (max-width: 700px) {
+  .legacy-game[data-mode='matrix'] .sidebar {
+    top: auto;
+  }
+}
