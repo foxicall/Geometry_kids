@@ -26,7 +26,7 @@ async function completeRound(page: Page) {
 test('立體十關完整作答、鎖定連點、結算與本機挑戰榜', async ({ page }, testInfo) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  await page.goto('/');
+  await page.goto('/?mode=solid');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('轉個角度');
   await page.screenshot({ path: testInfo.outputPath('solid-home.png'), fullPage: true });
   await page.getByLabel('你的小小建築師暱稱', { exact: false }).fill('小星');
@@ -50,7 +50,7 @@ test('立體十關完整作答、鎖定連點、結算與本機挑戰榜', async
 
 test('立體旋轉、鍵盤與拖曳、頂點標記、減少動畫與 320px 版面', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/');
+  await page.goto('/?mode=solid');
   const geometry = page.getByTestId('solid-geometry');
   const model = page.getByRole('img', { name: /立體模型/ });
   const hintIcon = (await page.locator('.scene-caption svg').boundingBox())!;
@@ -82,7 +82,7 @@ test('立體旋轉、鍵盤與拖曳、頂點標記、減少動畫與 320px 版�
 
 test('立體空白驗證、錯答計分、提示、計時暫停與重啟', async ({ page }) => {
   await page.clock.install();
-  await page.goto('/');
+  await page.goto('/?mode=solid');
   await page.getByRole('button', { name: '開始觀察挑戰' }).click();
   await page.getByRole('button', { name: '確認我的發現' }).click();
   await expect(page.getByRole('alert')).toContainText('整數');
@@ -116,7 +116,7 @@ test('無法讀寫儲存及 randomUUID 不影響立體結算與重新開始', as
     Object.defineProperty(window, 'localStorage', { get() { throw new Error('Storage unavailable'); } });
     Object.defineProperty(crypto, 'randomUUID', { value: undefined, configurable: true });
   });
-  await page.goto('/');
+  await page.goto('/?mode=solid');
   await page.getByRole('button', { name: '開始觀察挑戰' }).click();
   await completeRound(page);
   await page.getByRole('button', { name: '查看本機挑戰榜' }).click();
@@ -134,6 +134,7 @@ test('離線單檔含新版十關與矩陣模式，沒有外部資源請求', as
   // 只供應這個單一 HTML；任何其他網址都不會被測試伺服器補齊。
   await page.route('**/*', (route) => route.request().url() === 'http://127.0.0.1:5173/offline-game.html' ? route.fulfill({ contentType: 'text/html', body: html }) : route.abort());
   await page.goto('/offline-game.html');
+  await page.getByRole('button', { name: '立體觀察室', exact: true }).click();
   await context.setOffline(true);
   await page.getByRole('button', { name: '開始觀察挑戰' }).click();
   await completeRound(page);

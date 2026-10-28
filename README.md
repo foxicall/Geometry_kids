@@ -1,6 +1,6 @@
 # 幾何小建築師 · Geometry Kids
 
-給國小學生的原創立體觀察與幾何矩陣推理遊戲。使用 React、TypeScript、Vite 與 Tailwind CSS，圖形皆由 SVG 繪製，沒有外部圖片、字型或兒童帳號。這是邏輯練習，不是瑞文氏標準測驗、IQ 換算或資優鑑定。
+給國小學生的原創幾何推理、立體觀察與圖形矩陣遊戲，加入用圖解銜接國中幾何的三級挑戰。使用 React、TypeScript、Vite 與 Tailwind CSS，圖形皆由 SVG 繪製，沒有外部圖片、字型或兒童帳號。這是邏輯練習，不是瑞文氏標準測驗、IQ 換算或資優鑑定。
 
 ## 開始開發
 
@@ -15,7 +15,11 @@ npm run dev
 
 ## 遊戲內容
 
-預設主畫面是「立體觀察室」。參考立體觀察、填寫數量的玩法，使用自行建模與原創介面，沒有複製參考網站程式、素材或題庫。
+預設主畫面是「幾何推理」，提供「圖解暖身／搭橋練習／國中挑戰」三階，6 類觀念各有 4 組數值，共 72 題原創參數變化題，每輪 6 題。涵蓋追角、同高面積、切補、相似圖形、勾股圖解及限定平面／兩個相鄰面的最短路線。每題有先備觀念、可操作 SVG、三層提示、分步解答與逐題回顧。提示不扣分、沒有倒數限制。新紀錄獨立儲存，不清除舊模式紀錄。
+
+可用 `?mode=solid` 直接開啟「立體觀察室」，`?mode=matrix` 開啟矩陣練習。完整題型與限制見 [推理題設計說明](docs/reasoning-design.md)。YouTube 連線受到 403 限制，本版沒有宣稱核實任何特定影片；題目依通用數學觀念原創製作，影片參考仍待可讀的題目文字或內容。
+
+「立體觀察室」保留原本玩法。參考立體觀察、填寫數量的玩法，使用自行建模與原創介面，沒有複製參考網站程式、素材或題庫。
 
 - 三至八角的角柱、角錐共 12 種，每輪抽出 10 個不重複模型。
 - 純 SVG 正投影，支援自動旋轉、拖曳、方向鍵、暫停與頂點標記。虛線表示背面的邊，仍須計入總數。
@@ -39,7 +43,7 @@ npm run dev
 npm run build:offline
 ```
 
-產出 `dist/geometry-kids.html` 與 `dist/README-offline.txt`。單一 HTML 內嵌程式、樣式與題庫；以桌面瀏覽器開啟即可玩兩種模式，不需要 API 金鑰或網路。手機檔案預覽器可能不執行網頁程式，請改用桌面瀏覽器或以自己的靜態伺服器提供 `dist/`。本機檔案的歷史儲存支援依瀏覽器而異。
+產出 `dist/geometry-kids.html` 與 `dist/README-offline.txt`。單一 HTML 內嵌程式、樣式與題庫；以桌面瀏覽器開啟即可玩三種模式，不需要 API 金鑰或網路。手機檔案預覽器可能不執行網頁程式，請改用桌面瀏覽器或以自己的靜態伺服器提供 `dist/`。本機檔案的歷史儲存支援依瀏覽器而異。
 
 **[直接下載離線遊戲 ZIP（不需登入）](https://github.com/foxicall/Geometry_kids/raw/refs/heads/main/downloads/geometry-kids-8b0ab30.zip)**
 
@@ -92,9 +96,13 @@ npm run test:e2e         # 桌面與手機完整互動
 PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e
 ```
 
-瀏覽器測試涵蓋立體十關與矩陣八題結算、重複點選、重啟、計時清理、旋轉操作、固定難度、提示、儲存不可用、320px 版面及離線單檔。執行前先建置離線包。截圖及失敗 trace 位於被忽略的 `test-results/`。GitHub Actions 會執行相同的單元、建置與瀏覽器檢查，不需要 API 金鑰。
+瀏覽器測試涵蓋三級幾何推理六題、立體十關與矩陣八題結算、重複點選、重啟、計時清理、旋轉操作、固定難度、提示、儲存不可用、320px 版面及離線單檔。執行前先建置離線包。截圖及失敗 trace 位於被忽略的 `test-results/`。GitHub Actions 會執行相同的單元、建置與瀏覽器檢查，不需要 API 金鑰。
 
 ## 模組
+
+- `src/types/reasoning.ts`、`src/lib/reasoningQuestions.ts`：三級六類原創題型、已知條件與分步解答。
+- `src/lib/reasoningGame.ts`：推理作答、提示、分步閱讀與獨立本機紀錄。
+- `src/components/Reasoning*.tsx`、`src/reasoning.css`：SVG 幾何圖、三級介面與動態頂點。
 
 - `src/types/solid.ts`、`src/lib/solids.ts`：立體拓樸、數量、正投影與原創出題。
 - `src/lib/solidGame.ts`：十關狀態機、分項計分、計時與本機紀錄。

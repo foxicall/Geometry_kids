@@ -12,7 +12,7 @@ const preview: SolidQuestion = { id: 'preview', kind: 'prism', sides: 5 };
 const letters = { vertices: 'V', edges: 'E', faces: 'F' };
 const definitions = { vertices: '邊與邊相遇的角落', edges: '兩個面相接的線段', faces: '圍成立體的平面' };
 
-export function SolidGame({ onMatrix }: { onMatrix: () => void }) {
+export function SolidGame({ onMatrix, onReasoning }: { onMatrix: () => void; onReasoning: () => void }) {
   const [state, dispatch] = useReducer(solidGameReducer, initialSolidGame);
   const [nickname, setNickname] = useState('');
   const [now, setNow] = useState(Date.now);
@@ -54,7 +54,7 @@ export function SolidGame({ onMatrix }: { onMatrix: () => void }) {
   return <div className="solid-app">
     <header className="solid-header"><div className="solid-header-inner">
       <button className="solid-brand" onClick={home} aria-label="幾何小建築師首頁"><span><Box size={25} /></span><div><strong>幾何小建築師</strong><small>THE LITTLE GEOMETRY LAB</small></div></button>
-      <nav aria-label="遊戲模式"><button className="selected" onClick={home}><Compass size={17} />立體觀察室</button><button onClick={onMatrix}><Grid2X2 size={17} />圖形規律練習</button></nav>
+      <nav aria-label="遊戲模式"><button onClick={onReasoning}><Lightbulb size={17} />幾何推理</button><button className="selected" onClick={home}><Compass size={17} />立體觀察室</button><button onClick={onMatrix}><Grid2X2 size={17} />圖形規律練習</button></nav>
       <button className="solid-record-link" aria-label="練習紀錄" disabled={active} onClick={() => { setRecords(solidRecords()); setShowRecords(true); }}><Trophy size={17} /><span>練習紀錄</span></button>
     </div></header>
     <main className="solid-main" ref={main} tabIndex={-1}>
