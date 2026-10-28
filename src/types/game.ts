@@ -73,6 +73,7 @@ export interface GameLevel<S extends GameBoard = GameBoard> {
   initialBoard: S;
   stepLimit: number;
   hints: readonly string[];
+  playgroundHints: readonly string[];
   validate: (board: S) => GameValidation;
 }
 export type GameAction =

@@ -86,6 +86,8 @@ describe('13 關可解性、步數及復原', () => {
     expect(new Set(levels.map((l) => l.concept)).size).toBe(13);
     for (const level of levels) {
       expect(level.hints).toHaveLength(3);
+      expect(level.playgroundHints).toHaveLength(3);
+      expect(level.playgroundHints).not.toEqual(level.hints);
       expect(level.validate(level.initialBoard).solved).toBe(false);
     }
   });

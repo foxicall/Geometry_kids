@@ -60,6 +60,7 @@ export function IMOGame({ onMode }: { onMode: (mode: 'reasoning' | 'solid' | 'ma
     index = levels.findIndex((l) => l.id === level.id),
     MiniGame = components[level.concept];
   const disabled = session.status !== 'playing';
+  const activeHints = session.mode === 'playground' ? level.playgroundHints : level.hints;
   useEffect(() => {
     heading.current?.focus();
   }, [inLevel, session.levelId]);
@@ -337,13 +338,13 @@ export function IMOGame({ onMode }: { onMode: (mode: 'reasoning' | 'solid' | 'ma
                 </h2>
                 <button
                   className={`${buttonClass} w-full`}
-                  disabled={session.hintIndex >= level.hints.length}
+                  disabled={session.hintIndex >= activeHints.length}
                   onClick={() => dispatch({ type: 'hint' })}
                 >
-                  看提示（{session.hintIndex}/{level.hints.length}）
+                  看提示（{session.hintIndex}/{activeHints.length}）
                 </button>
                 <ol className="mt-3 list-inside list-decimal space-y-3 text-sm leading-relaxed">
-                  {level.hints.slice(0, session.hintIndex).map((hint) => (
+                  {activeHints.slice(0, session.hintIndex).map((hint) => (
                     <li key={hint}>{hint}</li>
                   ))}
                 </ol>

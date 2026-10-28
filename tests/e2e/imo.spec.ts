@@ -217,6 +217,9 @@ test('IMO 探索修改參數、半圖案、鏡像與觸控塗色', async ({ page
   await expect(page.getByRole('group', { name: '1 小時平均分給 4 人' })).toContainText(
     '每人 15 分鐘',
   );
+  for (let i = 0; i < 3; i++) await page.getByRole('button', { name: /^看提示/ }).click();
+  await expect(page.locator('aside ol')).toContainText('目前人數');
+  await expect(page.locator('aside ol')).not.toContainText('5000');
   await open(page, titles[11]);
   await page.getByRole('button', { name: '第 1 運算 ÷', exact: true }).click();
   await page.getByRole('button', { name: '第 2 運算 +', exact: true }).click();

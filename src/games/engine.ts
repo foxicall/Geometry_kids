@@ -174,8 +174,10 @@ export function sessionReducer(state: GameSession, action: SessionAction): GameS
       ...createSession(state.levelId, state.mode),
       notice: '本關已重新開始；已完成紀錄保留。',
     };
-  if (action.type === 'hint')
-    return { ...state, hintIndex: Math.min(level.hints.length, state.hintIndex + 1) };
+  if (action.type === 'hint') {
+    const hints = state.mode === 'playground' ? level.playgroundHints : level.hints;
+    return { ...state, hintIndex: Math.min(hints.length, state.hintIndex + 1) };
+  }
   if (action.type === 'undo') {
     const board = state.history.at(-1);
     return board
