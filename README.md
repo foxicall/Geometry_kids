@@ -45,9 +45,9 @@ npm run build:offline
 
 產出 `dist/geometry-kids.html` 與 `dist/README-offline.txt`。單一 HTML 內嵌程式、樣式與題庫；以桌面瀏覽器開啟即可玩三種模式，不需要 API 金鑰或網路。手機檔案預覽器可能不執行網頁程式，請改用桌面瀏覽器或以自己的靜態伺服器提供 `dist/`。本機檔案的歷史儲存支援依瀏覽器而異。
 
-**[直接下載離線遊戲 ZIP（不需登入）](https://github.com/foxicall/Geometry_kids/raw/refs/heads/main/downloads/geometry-kids-8b0ab30.zip)**
+**[直接下載離線遊戲 ZIP（不需登入）](https://github.com/foxicall/Geometry_kids/raw/refs/heads/main/downloads/geometry-kids-4ae4a49.zip)**
 
-下載後解壓縮，以桌面瀏覽器開啟 `geometry-kids.html`。目前固定下載版本為 `8b0ab304a612a4a774c4132826614c32cddb9069`，與該版本通過測試的 CI 產物逐位元一致；檔案放在本專案 `downloads/`，不受 Actions 附件保存期限影響。手機檔案預覽器未必支援執行 HTML，請改用桌面瀏覽器開啟。
+下載後解壓縮，以桌面瀏覽器開啟 `geometry-kids.html`。目前固定下載版本為 `4ae4a49b4b4be3a76be7ddb016109245459a5c2f`，與該版本通過測試的 CI 產物逐位元一致；檔案放在本專案 `downloads/`，不受 Actions 附件保存期限影響。手機檔案預覽器未必支援執行 HTML，請改用桌面瀏覽器開啟。
 
 後續版本仍由 GitHub Actions 提供 **geometry-kids-offline** 附件（保留 30 天，下載需登入 GitHub）。更新固定下載版時，先驗證新版本 CI 與 HTML 內嵌 commit，再以不同版本檔名新增 ZIP 並更新本連結；不覆寫已發出的版本檔。這是下載交付，沒有公開部署網站。
 
