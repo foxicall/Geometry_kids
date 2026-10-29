@@ -1,6 +1,6 @@
 # 幾何小建築師 · Geometry Kids
 
-給國小學生的 IMO 概念互動、原創幾何推理、立體觀察與圖形矩陣遊戲，加入用圖解銜接國中幾何的三級挑戰。使用 React、TypeScript、Vite 與 Tailwind CSS，圖形皆由 SVG 繪製，沒有外部圖片、字型或兒童帳號。這是邏輯練習，不是瑞文氏標準測驗、IQ 換算或資優鑑定。
+給國小學生的即時鏡面彈射、IMO 概念互動、原創幾何推理、立體觀察與圖形矩陣遊戲，加入用圖解銜接國中幾何的三級挑戰。使用 React、TypeScript、Vite 與 Tailwind CSS，圖形皆由 SVG 繪製，沒有外部圖片、字型或兒童帳號。這是邏輯練習，不是瑞文氏標準測驗、IQ 換算或資優鑑定。
 
 ## 開始開發
 
@@ -14,6 +14,8 @@ npm run dev
 開發伺服器使用 5173 埠；`npm run build` 產出 `dist/`，`npm run preview` 使用 4173 埠。專案已在隔離的雲端工作目錄中，直接使用現有 checkout，不需額外建立 worktree。
 
 ## 遊戲內容
+
+新增「鏡面彈射實驗室」：從研究所點「動作彈射」或用 `?mode=action` 開啟。拖曳拉弓／滑桿瞄準、方向鍵或 WASD 移動，讓小球以指定反射次數命中目標。含 Canvas 即時物理、60 秒倒數、連擊倍率、粒子／音效、失誤慢動作、背景暫停與本機最高分。支援即時重試、減少特效與離線遊玩；詳細數學及生命週期見 [動作遊戲設計](docs/action-game-design.md)。
 
 預設主畫面是「IMO 數學思考研究所」，依 `docs/imo_concepts.md` 的 13 個概念提供 13 關互動遊戲。每關具備不限步數的探索模式、固定目標與步數的挑戰模式、Undo、重設、三階提示及本機完成紀錄。含位值、羅馬數字、估算、逆推、單位法、約分、通分比較、度量衡、周長、對稱、圖示統計、規律與羅盤。詳細對應、規格中數學矛盾的更正與操作規則見 [IMO 實作說明](docs/imo-implementation.md)。
 
@@ -45,7 +47,7 @@ npm run dev
 npm run build:offline
 ```
 
-產出 `dist/geometry-kids.html` 與 `dist/README-offline.txt`。單一 HTML 內嵌程式、樣式與題庫；以桌面瀏覽器開啟即可玩四種模式，不需要 API 金鑰或網路。手機檔案預覽器可能不執行網頁程式，請改用桌面瀏覽器或以自己的靜態伺服器提供 `dist/`。本機檔案的歷史儲存支援依瀏覽器而異。
+產出 `dist/geometry-kids.html` 與 `dist/README-offline.txt`。單一 HTML 內嵌程式、樣式與題庫；以桌面瀏覽器開啟即可玩五種模式，不需要 API 金鑰或網路。手機檔案預覽器可能不執行網頁程式，請改用桌面瀏覽器或以自己的靜態伺服器提供 `dist/`。本機檔案的歷史儲存支援依瀏覽器而異。
 
 **[直接下載離線遊戲 ZIP（不需登入）](https://github.com/foxicall/Geometry_kids/raw/refs/heads/main/downloads/geometry-kids-0363834.zip)**
 
@@ -98,9 +100,11 @@ npm run test:e2e         # 桌面與手機完整互動
 PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e
 ```
 
-瀏覽器測試涵蓋 IMO 13 關探索／挑戰、Undo、提示、步數預算、模式重設與儲存隔離，以及三級幾何推理六題、立體十關與矩陣八題結算、重複點選、重啟、計時清理、旋轉操作、固定難度、提示、儲存不可用、320px 版面及離線單檔。執行前先建置離線包。截圖及失敗 trace 位於被忽略的 `test-results/`。GitHub Actions 會執行相同的單元、建置與瀏覽器檢查，不需要 API 金鑰。
+瀏覽器測試涵蓋動作彈射、觸控／鍵盤、鏡射計分、倒數／暫停／重試、rAF 清理與最高分，以及 IMO 13 關探索／挑戰、Undo、提示、步數預算、模式重設與儲存隔離，以及三級幾何推理六題、立體十關與矩陣八題結算、重複點選、重啟、計時清理、旋轉操作、固定難度、提示、儲存不可用、320px 版面及離線單檔。執行前先建置離線包。截圖及失敗 trace 位於被忽略的 `test-results/`。GitHub Actions 會執行相同的單元、建置與瀏覽器檢查，不需要 API 金鑰。
 
 ## 模組
+
+- `src/types/actionGame.ts`、`src/games/ActionMathGame.tsx`、`src/games/action/`：動作遊戲型別、Canvas 介面、固定步進物理、碰撞、唯讀繪圖與合成音效。
 
 - `src/types/game.ts`、`src/games/levels.ts`：13 關資料介面、目標、初始盤面、驗證器與提示。
 - `src/games/math.ts`、`engine.ts`：純數學、雙模式狀態機、步數、Undo 與獨立完成紀錄。

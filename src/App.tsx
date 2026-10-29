@@ -5,12 +5,16 @@ import { SolidGame } from './components/SolidGame';
 import { ReasoningGame } from './components/ReasoningGame';
 import { IMOGame } from './games/IMOGame';
 import './solid.css';
+import { ActionMathGame } from './games/ActionMathGame';
 
-type AppMode = 'imo' | 'reasoning' | 'solid' | 'matrix';
+type AppMode = 'imo' | 'action' | 'reasoning' | 'solid' | 'matrix';
 export function App() {
   const [mode, setMode] = useState<AppMode>(() => {
     const requested = new URLSearchParams(window.location.search).get('mode');
-    return requested === 'matrix' || requested === 'solid' || requested === 'reasoning'
+    return requested === 'matrix' ||
+      requested === 'solid' ||
+      requested === 'reasoning' ||
+      requested === 'action'
       ? requested
       : 'imo';
   });
@@ -19,6 +23,7 @@ export function App() {
     setMode(next);
     window.scrollTo({ top: 0 });
   };
+  if (mode === 'action') return <ActionMathGame onBack={() => changeMode('imo')} />;
   if (mode === 'imo') return <IMOGame onMode={changeMode} />;
   return (
     <div className="legacy-game" data-mode={mode}>

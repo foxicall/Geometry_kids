@@ -43,7 +43,11 @@ const components: Record<IMOConcept, ComponentType<MiniGameProps>> = {
   matrix: MatrixCipherGame,
   compass: CompassGame,
 };
-export function IMOGame({ onMode }: { onMode: (mode: 'reasoning' | 'solid' | 'matrix') => void }) {
+export function IMOGame({
+  onMode,
+}: {
+  onMode: (mode: 'action' | 'reasoning' | 'solid' | 'matrix') => void;
+}) {
   const [session, dispatch] = useReducer(sessionReducer, undefined, () => createSession());
   const [inLevel, setInLevel] = useState(false),
     [revision, setRevision] = useState(0);
@@ -99,9 +103,9 @@ export function IMOGame({ onMode }: { onMode: (mode: 'reasoning' | 'solid' | 'ma
           </span>
         </button>
         <nav aria-label="其他遊戲" className="flex flex-wrap gap-2">
-          {(['reasoning', 'solid', 'matrix'] as const).map((mode, i) => (
+          {(['action', 'reasoning', 'solid', 'matrix'] as const).map((mode, i) => (
             <button className={buttonClass} key={mode} onClick={() => onMode(mode)}>
-              {['幾何推理', '立體觀察', '圖形矩陣'][i]}
+              {['動作彈射', '幾何推理', '立體觀察', '圖形矩陣'][i]}
             </button>
           ))}
         </nav>

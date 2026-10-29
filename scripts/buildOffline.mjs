@@ -33,5 +33,5 @@ const dirty = execFileSync('git', ['status', '--porcelain'], { encoding: 'utf8' 
 const version = `${commit}${dirty ? ' (含尚未提交的本機變更)' : ''}`;
 html = html.replace('</head>', () => `<meta name="geometry-kids-version" content="${version}">\n</head>`);
 await writeFile(resolve(root, 'geometry-kids.html'), html);
-await writeFile(resolve(root, 'README-offline.txt'), `幾何小建築師\n版本：${version}\n\n解壓縮後，以 Chrome、Edge、Firefox 或 Safari 開啟 geometry-kids.html。\n包含 IMO 數學思考研究所（13 關，每關有探索與挑戰模式）、三級幾何推理（72 題，每輪 6 題）、立體觀察十關挑戰與圖形矩陣八題練習。程式與題庫已內嵌，不需要網路或 API 金鑰。\n若手機的檔案預覽器不執行網頁程式，請改用桌面瀏覽器開啟，或將 dist 正式版由自己的靜態伺服器提供。\n暱稱與紀錄僅存於本機瀏覽器；瀏覽器拒絕儲存時仍能遊玩，但不會保留歷史。\n這是原創觀察練習，不是 IQ 測驗或正式鑑定。\n`);
+await writeFile(resolve(root, 'README-offline.txt'), `幾何小建築師\n版本：${version}\n\n解壓縮後，以 Chrome、Edge、Firefox 或 Safari 開啟 geometry-kids.html。\n包含鏡面彈射動作遊戲（Canvas、60 秒挑戰、連擊與本機最高分）、IMO 數學思考研究所（13 關，每關有探索與挑戰模式）、三級幾何推理（72 題，每輪 6 題）、立體觀察十關挑戰與圖形矩陣八題練習。程式與題庫已內嵌，不需要網路或 API 金鑰。\n若手機的檔案預覽器不執行網頁程式，請改用桌面瀏覽器開啟，或將 dist 正式版由自己的靜態伺服器提供。\n暱稱與紀錄僅存於本機瀏覽器；瀏覽器拒絕儲存時仍能遊玩，但不會保留歷史。\n這是原創觀察練習，不是 IQ 測驗或正式鑑定。\n`);
 console.log(`離線版本已輸出：dist/geometry-kids.html（${Buffer.byteLength(html)} bytes），版本 ${version}`);
